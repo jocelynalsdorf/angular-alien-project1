@@ -12,7 +12,7 @@ module.exports = function(grunt) {
           comments: {
       //specify the destination files
             files: {
-            'comments.annotated.js' : ['comments.js']
+            'javascript/comments.annotated.js' : ['javascript/comments.js']
             }
           }
         },

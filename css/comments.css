@@ -1,11 +1,11 @@
 .main {
   width: 30rem;
-  margin: 0 auto;
+  margin: 25px auto;
   background: #f8f8f8; }
 
 .comment {
-  min-height: 100px;
-  padding: 1rem; }
+  min-height: 90px;
+  padding: 0.7rem; }
   .comment p {
     font-family: 'Whitney SSm A', 'Whitney SSm B';
     font-weight: 400;
@@ -18,7 +18,8 @@
 .post {
   max-width: 25rem;
   width: 100%;
-  margin: 0 auto; }
+  margin: 0 auto;
+  padding: 10px; }
 
 textarea {
   width: 100%;

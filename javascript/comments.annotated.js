@@ -7,7 +7,7 @@ app.constant("FIREBASE_URL","https://popping-torch-6088.firebaseio.com/");
 app.directive('comments', function(){
   return {
     restrict: "EA",
-    controller: function($scope, $firebaseArray, FIREBASE_URL ){
+    controller: ["$scope", "$firebaseArray", "FIREBASE_URL", function($scope, $firebaseArray, FIREBASE_URL ){
      
       var comments = $firebaseArray(new Firebase(FIREBASE_URL));
 
@@ -19,7 +19,7 @@ app.directive('comments', function(){
       $scope.commentMd = "";
       };
       $scope.comments = comments;
-    },
+    }],
     templateUrl: 'comments.html'
   }
 
