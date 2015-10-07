@@ -1,0 +1,93 @@
+$base-color: rgb(118,184,216);  
+$light-base-color: lighten($base-color, 25%);
+$lighter-base-color: lighten($base-color, 30%);
+$lightest-base-color: lighten($base-color, 50%);
+$dark-base-color: darken($base-color, 15%);
+$darker-base-color: darken($base-color, 30%);
+$complementary-color: rgb(185,60,47);
+$dark-complementary-color: rgb(55,18,17);
+$light-complementary-color: rgb(217,106,72);
+$lighter-complementary-color: lighten($light-complementary-color, 30%);
+$rocket-grey: rgb(199,200,201);
+$black: #222222;
+$dark-grey: lighten($black, 5%);
+$white: #f8f8f8;
+$grey: lighten($black, 10%);
+$light-grey: lighten($black, 25%);
+$lighter-grey: lighten($black, 45%);
+
+@mixin archer-book {
+    font-family: 'Archer A', 'Archer B';
+    font-weight: 500;
+    font-style: normal;
+}
+
+@mixin archer-book-italic {
+    font-family: 'Archer A', 'Archer B';
+    font-weight: 500;
+    font-style: italic;
+}
+
+@mixin archer-bold {
+    font-family: 'Archer A', 'Archer B';
+    font-weight: 800;
+    font-style: normal;
+}
+
+@mixin archer-bold-italic {
+    font-family: 'Archer A', 'Archer B';
+    font-weight: 800;
+    font-style: italic;
+}
+
+@mixin whitney-book {
+    font-family: 'Whitney SSm A', 'Whitney SSm B';
+    font-weight: 400;
+    font-style: normal;
+}
+
+.main {
+    width: 30rem;
+    margin: 15px auto;
+    background: $white;
+
+}
+
+.comment {
+    min-height: 100px;
+    padding: 1rem;
+    p {
+        @include whitney-book;
+        line-height: 1.5em;
+    }
+    
+}
+
+.comment:nth-of-type(even) {
+    background: $light-base-color;
+}
+
+.post {
+    max-width: 25rem;
+    width: 100%;
+    margin: 0 auto;
+}
+
+textarea {
+    width: 100%;
+    min-height: 100px;
+    display: block;
+    padding: 1rem;
+    font-size: 1.3rem;
+}
+
+button {
+    @include archer-bold;
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    padding: 1rem;
+}
+
+* {
+    box-sizing: border-box;
+}

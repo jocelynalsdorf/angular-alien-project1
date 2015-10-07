@@ -1,1 +1,10 @@
-<p ng-repeat="comment in comments">{{comment.text}}</p>
+<div >
+  <div class="comment" ng-repeat="comment in comments">
+    <p>{{comment.text}}</p>
+  </div>
+  <div class="post">
+    <textarea>
+    </textarea>
+    <button>Post Your Comment</button>
+  </div>
+</div>
