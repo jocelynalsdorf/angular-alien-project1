@@ -1,29 +1,36 @@
 (function(){
 
-var app = angular.module('angular-demo', ['ngSanitize', 'firebase']);
-
+var app = angular.module('angular-demo', ['ngSanitize', 'firebase', 'ngRoute']);
 app.constant("FIREBASE_URL","https://popping-torch-6088.firebaseio.com/");
 
 app.directive('comments', function(){
   return {
     restrict: "EA",
-    controller: function($scope, $firebaseArray, FIREBASE_URL ){
-     
-      var comments = $firebaseArray(new Firebase(FIREBASE_URL));
-
-      
+    controller: function($scope,Comments){  
+      $scope.comments = Comments; 
       $scope.commentMd = "";
 
       $scope.post = function(){
-      comments.$add({md:$scope.commentMd});
+       Comments.post($scope.commentMd);
       $scope.commentMd = "";
-      };
-      $scope.comments = comments;
+       };
+      
     },
     templateUrl: 'comments.html'
   }
-
 });
+
+app.factory('Comments', function($firebaseArray, FIREBASE_URL){
+  var comments = $firebaseArray(new Firebase(FIREBASE_URL));     
+
+  comments.post = function(markdown){
+  comments.$add({md:markdown});
+  };
+
+return comments;
+});
+
+
 
 app.filter("mdToHtml", function(){
   return function(md) {
