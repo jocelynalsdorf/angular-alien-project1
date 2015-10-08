@@ -9,6 +9,7 @@ app.directive('comments', function(){
   return {
     restrict: "EA",
     controller: function($scope,Comments){  
+      $scope.user = null;
       $scope.comments = Comments; 
       $scope.commentMd = "";
 
