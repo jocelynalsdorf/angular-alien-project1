@@ -15,6 +15,11 @@ $white: #f8f8f8;
 $grey: lighten($black, 10%);
 $light-grey: lighten($black, 25%);
 $lighter-grey: lighten($black, 45%);
+$font-size-1: 1rem;
+$font-size-2: 1.6154rem;
+$font-size-3: 2.6154rem;
+$font-size-4: 4.2308rem;
+$font-size-5: 6.8462rem;
 
 @mixin archer-book {
     font-family: 'Archer A', 'Archer B';
@@ -91,4 +96,84 @@ button {
 
 * {
     box-sizing: border-box;
+}
+
+.login {
+    h3 {
+        @include archer-book;
+        color: $black;
+        text-align: center;
+        font-size: $font-size-2;
+    }
+    
+    .twitter, .facebook {
+        @include archer-book;
+        width: 21rem;
+        color: $white;
+        background: grey;
+        font-size: $font-size-2;
+        margin: 1rem auto;
+        border: 1px solid $lighter-grey;
+        border-radius: 2px;
+        i {
+            padding: 1rem 1rem 1rem 1rem;
+        }
+        span {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        i, span {
+            display: inline-block;
+        }
+        &:hover {
+            cursor: pointer;
+            border: 1px solid $light-grey;
+        }
+
+    }
+
+    .twitter {
+        background: rgb(81, 155, 228);
+        i {
+            background: rgb(73, 136, 201);
+        }
+    }
+
+    .facebook {
+        background: rgb(49, 75, 130);
+        i {
+            background: rgb(42, 64, 110);
+        }
+    }
+    
+}
+
+.login-required {
+    height: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include archer-bold;
+    font-size: $font-size-1;
+    color: $black;
+    border: 1px solid $base-color;
+    border-radius: 2px;
+    p {
+
+    }
+}
+
+.pending {
+    text-align: center;
+    @include archer-bold;
+    font-size: $font-size-2;
+    padding: .5rem;
+    background: $light-base-color;
+    border: 1px solid $lighter-grey;
+    a {
+        color: $dark-grey;
+    }
+}
+ul {
+  list-style: none;
 }
