@@ -23,6 +23,18 @@ app.directive('comments', function(){
   }
 });
 
+//create a firebase ref that can be shared
+app.factory('FirebaseRef', ["FIREBASE_URL", "$firebaseAuth", function(FIREBASE_URL, $firebaseAuth){
+   var ref = new Firebase(FIREBASE_URL);
+   return ref;
+}]);
+
+//create the user auth factory
+app.factory('UserAuth', ["FirebaseRef", function(FirebaseRef){
+
+}]);
+
+
 //app logic moved to a service and should not be in controller
 app.factory('Comments', ["$firebaseArray", "FIREBASE_URL", function($firebaseArray, FIREBASE_URL){
   var comments = $firebaseArray(new Firebase(FIREBASE_URL));     

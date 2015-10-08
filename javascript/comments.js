@@ -9,7 +9,7 @@ app.directive('comments', function(){
   return {
     restrict: "EA",
     controller: function($scope,Comments){  
-      $scope.user = null;
+      $scope.user = 1;
       $scope.comments = Comments; 
       $scope.commentMd = "";
 
@@ -22,6 +22,18 @@ app.directive('comments', function(){
     templateUrl: 'comments.html'
   }
 });
+
+//create a firebase ref that can be shared
+app.factory('FirebaseRef', function(FIREBASE_URL, $firebaseAuth){
+   var ref = new Firebase(FIREBASE_URL);
+   return ref;
+});
+
+//create the user auth factory
+app.factory('UserAuth', function(FirebaseRef){
+
+});
+
 
 //app logic moved to a service and should not be in controller
 app.factory('Comments', function($firebaseArray, FIREBASE_URL){
