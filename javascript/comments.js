@@ -77,8 +77,13 @@ app.filter("mdToHtml", function(){
 });
 
 //login controller for login route
-app.controller('LoginCtrl', function($scope, $routeParams, UserAuth){
+app.controller('LoginCtrl', function($scope, $routeParams, UserAuth, $location){
   $scope.UserAuth = UserAuth;
+  $scope.$watch('UserAuth.user', function(user){
+    if(user) {
+      $location.path('/');
+    }
+  });
 });
 
 //wire up routes

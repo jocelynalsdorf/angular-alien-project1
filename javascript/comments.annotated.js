@@ -55,28 +55,6 @@ var auth = $firebaseAuth(FirebaseRef);
   user: null
  }
 
-  
-
-  // auth.authAnonymously(function(error, user) {
-  //   if (user) {
-  //     // Global Message:User authenticated with Firebase
-  //     $rootScope.$broadcast('FirebaseLogin::LoggedIn', user);
-  //     $rootScope.$apply(function(){
-  //        UserAuth.user = user;
-  //     });
-     
-  //   } else {
-  //     //Global Message: there was an error
-  //      $rootScope.$broadcast('FirebaseLogin::LoggedOut', user);
-  //      $rootScope.$apply(function(){
-  //        UserAuth.user = null;
-  //     });
-       
-      
-  //   }
-  // })
-   console.log(auth);
-
   return UserAuth;
 }]);
 
@@ -99,8 +77,13 @@ app.filter("mdToHtml", function(){
 });
 
 //login controller for login route
-app.controller('LoginCtrl', ["$scope", "$routeParams", "UserAuth", function($scope, $routeParams, UserAuth){
+app.controller('LoginCtrl', ["$scope", "$routeParams", "UserAuth", "$location", function($scope, $routeParams, UserAuth, $location){
   $scope.UserAuth = UserAuth;
+  $scope.$watch('UserAuth.user', function(user){
+    if(user) {
+      $location.path('/');
+    }
+  });
 }]);
 
 //wire up routes
