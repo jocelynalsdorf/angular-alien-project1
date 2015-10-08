@@ -15,9 +15,19 @@ app.directive('comments', function(){
 
       $scope.post = function(){
        Comments.post($scope.commentMd);
-      $scope.commentMd = "";
+        $scope.commentMd = "";
        };
+//create empty array to make a copy of all comments so we have 2 watches due to pending directive
       
+      $scope.loaded = [];
+      
+
+      
+
+      $scope.refresh = function(data) {
+        $scope.loaded = data;
+      };
+
     },
     templateUrl: 'comments.html'
   }
@@ -85,6 +95,37 @@ app.controller('LoginCtrl', function($scope, $routeParams, UserAuth, $location){
     }
   });
 });
+
+app.directive('pending', function(){
+  return {
+    restrict: 'E',
+    scope: {
+      data: '=watch',
+      reload: '&update'
+    },
+    templateUrl: 'pending.html',
+
+    link: function(scope){
+      scope.pending = 0;
+      var start = scope.data.length;
+      
+      scope.data.$loaded(function(){
+        start = scope.data.length; 
+        scope.reload({data: scope.data.slice(0)}); 
+      });
+
+      scope.$watchCollection('data', function(){
+        scope.pending = scope.data.length - start;
+      });
+
+      scope.update = function() {
+        scope.reload({data: scope.data.slice(0)});
+        scope.pending = 0;
+      };
+    }
+  };
+});
+
 
 //wire up routes
 app.config(function($routeProvider){
