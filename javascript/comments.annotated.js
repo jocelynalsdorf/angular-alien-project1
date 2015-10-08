@@ -38,10 +38,18 @@ var auth = $firebaseAuth(FirebaseRef);
 
  var UserAuth = {
   login: function(provider) {
-    auth.$authWithOAuthPopup(provider);
+    auth.$authWithOAuthPopup(provider)
+    .then(function(authData) {
+    console.log("Logged in as:", authData.uid);
+    UserAuth.user = authData.uid;
+    console.log(UserAuth.user);
+  }).catch(function(error) {
+    console.log("Authentication failed:", error);
+  });
   },
   logout: function(provider) {
     auth.$unauth();
+    UserAuth.user = null;
   },
 
   user: null
@@ -67,7 +75,8 @@ var auth = $firebaseAuth(FirebaseRef);
       
   //   }
   // })
-   console.log(UserAuth);
+   console.log(auth);
+
   return UserAuth;
 }]);
 
