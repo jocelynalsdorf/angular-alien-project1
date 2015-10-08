@@ -8,8 +8,8 @@ app.constant("FIREBASE_URL","https://popping-torch-6088.firebaseio.com/");
 app.directive('comments', function(){
   return {
     restrict: "EA",
-    controller: function($scope,Comments){  
-      $scope.user = 1;
+    controller: function($scope,Comments, UserAuth){  
+      $scope.UserAuth = UserAuth;
       $scope.comments = Comments; 
       $scope.commentMd = "";
 
@@ -30,14 +30,51 @@ app.factory('FirebaseRef', function(FIREBASE_URL, $firebaseAuth){
 });
 
 //create the user auth factory
-app.factory('UserAuth', function(FirebaseRef){
+app.factory('UserAuth', function(FirebaseRef, $rootScope, $firebaseAuth){
+//create UserAuth object to return
+ 
 
+var auth = $firebaseAuth(FirebaseRef);
+
+ var UserAuth = {
+  login: function(provider) {
+    auth.$authWithOAuthPopup(provider);
+  },
+  logout: function(provider) {
+    auth.$unauth();
+  },
+
+  user: null
+ }
+
+  
+
+  // auth.authAnonymously(function(error, user) {
+  //   if (user) {
+  //     // Global Message:User authenticated with Firebase
+  //     $rootScope.$broadcast('FirebaseLogin::LoggedIn', user);
+  //     $rootScope.$apply(function(){
+  //        UserAuth.user = user;
+  //     });
+     
+  //   } else {
+  //     //Global Message: there was an error
+  //      $rootScope.$broadcast('FirebaseLogin::LoggedOut', user);
+  //      $rootScope.$apply(function(){
+  //        UserAuth.user = null;
+  //     });
+       
+      
+  //   }
+  // })
+   console.log(UserAuth);
+  return UserAuth;
 });
 
 
 //app logic moved to a service and should not be in controller
-app.factory('Comments', function($firebaseArray, FIREBASE_URL){
-  var comments = $firebaseArray(new Firebase(FIREBASE_URL));     
+app.factory('Comments', function($firebaseArray, FirebaseRef){
+  var comments = $firebaseArray(FirebaseRef);     
 
   comments.post = function(markdown){
   comments.$add({md:markdown});
@@ -53,8 +90,8 @@ app.filter("mdToHtml", function(){
 });
 
 //login controller for login route
-app.controller('LoginCtrl', function($scope, $routeParams){
-
+app.controller('LoginCtrl', function($scope, $routeParams, UserAuth){
+  $scope.UserAuth = UserAuth;
 });
 
 //wire up routes

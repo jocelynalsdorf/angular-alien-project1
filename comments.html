@@ -2,13 +2,13 @@
   <div class="comment" ng-repeat="comment in comments">
     <p ng-bind-html="comment.md | mdToHtml"></p>
   </div>
-  <div class="post" ng-show="user">
+  <div class="post" ng-show="UserAuth.user">
     <textarea ng-model="commentMd">
     </textarea>
     <button ng-click="post()">Post Your Comment</button>
-    <a href="/#/login">Login</a>
+    <a href="" ng-click="UserAuth.logout()">LogOut</a>
   </div>
-  <div class="login-required" ng-hide="user">
+  <div class="login-required" ng-hide="UserAuth.user">
     <p>You need to <a href="/#/login">log in</a> to leave a comment.</p>
   </div>
 </div>

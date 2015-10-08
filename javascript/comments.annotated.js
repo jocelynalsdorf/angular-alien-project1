@@ -8,8 +8,8 @@ app.constant("FIREBASE_URL","https://popping-torch-6088.firebaseio.com/");
 app.directive('comments', function(){
   return {
     restrict: "EA",
-    controller: ["$scope", "Comments", function($scope,Comments){  
-      $scope.user = 1;
+    controller: ["$scope", "Comments", "UserAuth", function($scope,Comments, UserAuth){  
+      $scope.UserAuth = UserAuth;
       $scope.comments = Comments; 
       $scope.commentMd = "";
 
@@ -30,14 +30,51 @@ app.factory('FirebaseRef', ["FIREBASE_URL", "$firebaseAuth", function(FIREBASE_U
 }]);
 
 //create the user auth factory
-app.factory('UserAuth', ["FirebaseRef", function(FirebaseRef){
+app.factory('UserAuth', ["FirebaseRef", "$rootScope", "$firebaseAuth", function(FirebaseRef, $rootScope, $firebaseAuth){
+//create UserAuth object to return
+ 
 
+var auth = $firebaseAuth(FirebaseRef);
+
+ var UserAuth = {
+  login: function(provider) {
+    auth.$authWithOAuthPopup(provider);
+  },
+  logout: function(provider) {
+    auth.$unauth();
+  },
+
+  user: null
+ }
+
+  
+
+  // auth.authAnonymously(function(error, user) {
+  //   if (user) {
+  //     // Global Message:User authenticated with Firebase
+  //     $rootScope.$broadcast('FirebaseLogin::LoggedIn', user);
+  //     $rootScope.$apply(function(){
+  //        UserAuth.user = user;
+  //     });
+     
+  //   } else {
+  //     //Global Message: there was an error
+  //      $rootScope.$broadcast('FirebaseLogin::LoggedOut', user);
+  //      $rootScope.$apply(function(){
+  //        UserAuth.user = null;
+  //     });
+       
+      
+  //   }
+  // })
+   console.log(UserAuth);
+  return UserAuth;
 }]);
 
 
 //app logic moved to a service and should not be in controller
-app.factory('Comments', ["$firebaseArray", "FIREBASE_URL", function($firebaseArray, FIREBASE_URL){
-  var comments = $firebaseArray(new Firebase(FIREBASE_URL));     
+app.factory('Comments', ["$firebaseArray", "FirebaseRef", function($firebaseArray, FirebaseRef){
+  var comments = $firebaseArray(FirebaseRef);     
 
   comments.post = function(markdown){
   comments.$add({md:markdown});
@@ -53,8 +90,8 @@ app.filter("mdToHtml", function(){
 });
 
 //login controller for login route
-app.controller('LoginCtrl', ["$scope", "$routeParams", function($scope, $routeParams){
-
+app.controller('LoginCtrl', ["$scope", "$routeParams", "UserAuth", function($scope, $routeParams, UserAuth){
+  $scope.UserAuth = UserAuth;
 }]);
 
 //wire up routes
