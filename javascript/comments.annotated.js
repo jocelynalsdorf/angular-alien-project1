@@ -58,7 +58,7 @@ app.directive('pending', function(){
   };
 });
 
-app.directive('karma', ["FirebaseRef", "$firebaseArray", function(FirebaseRef, $firebaseArray){
+app.directive('karma', ["FirebaseRef", "$firebaseArray", "$firebaseObject", function(FirebaseRef, $firebaseArray, $firebaseObject){
   return {
     restrict: 'A',
     scope: {
@@ -72,23 +72,50 @@ app.directive('karma', ["FirebaseRef", "$firebaseArray", function(FirebaseRef, $
       var ObjectRef = FirebaseRef.child(scope.object.$id),
         upvotes = $firebaseArray(ObjectRef.child('upvotes')),
         downvotes = $firebaseArray(ObjectRef.child('downvotes'));
-        
-        scope.points = 0;
+     
+     scope.points;
+     
+      $firebaseArray(ObjectRef).$loaded(function(){
+          scope.points = upvotes.length - downvotes.length;
+      });
 
-        scope.canVote = function(){
-
+      scope.canVote = function(){
+        for (var i = 0; i < upvotes.length; i++){
+          var voted = upvotes[i];
+          if (voted.$value === scope.voter.id){
+            return false;
+          }
         };
-        scope.upVote = function(){
 
+        for (var i = 0; i < downvotes.length; i++){
+          var voted = downvotes[i];
+          if (voted.$value === scope.voter.id){
+            return false;
+          }
         };
-        scope.downVote = function(){
 
-        };
+        return true;
+      };
 
-        transclude(elem.scope(), function(clone){
-//so comment will still display even tho its in karma directive iolate scope */
-          elem.append(clone);
-        });
+      scope.upvote = function(){
+        if (scope.canVote()){
+          upvotes.$add(scope.voter.id);
+          console.log(upvotes.length);
+          console.log(scope.voter.id);
+        }
+      };
+
+      scope.downvote = function(){
+        if (scope.canVote()){
+          downvotes.$add(scope.voter.id);
+          console.log(downvotes.length);
+        }
+      };
+
+
+      transclude(elem.scope(), function(clone){
+        elem.append(clone);
+      });
 
 
     }
@@ -116,7 +143,7 @@ var auth = $firebaseAuth(FirebaseRef);
 
       console.log("Logged in as:", authData[authName]);
       UserAuth.user = authData[authName];
-      
+      //console.log(UserAuth.user.id);
       }).catch(function(error) {
         console.log("Authentication failed:", error);
         });
