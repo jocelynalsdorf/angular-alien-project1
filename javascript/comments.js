@@ -88,13 +88,13 @@ var auth = $firebaseAuth(FirebaseRef);
 
  var UserAuth = {
   login: function(provider) {
-    var x = provider;
+    var authName = provider;
     auth.$authWithOAuthPopup(provider)
     .then(function(authData) {
-      console.log(x);
-      console.log("Logged in as:", authData[x]);
-      UserAuth.user = authData[x];
-      //console.log(UserAuth.user);
+
+      console.log("Logged in as:", authData[authName]);
+      UserAuth.user = authData[authName];
+      
       }).catch(function(error) {
         console.log("Authentication failed:", error);
         });
@@ -115,8 +115,13 @@ app.factory('Comments', function($firebaseArray, FirebaseRef){
   var comments = $firebaseArray(FirebaseRef);     
 
   comments.post = function(markdown, user){
-    console.log(user);
-  comments.$add({md:markdown});
+  console.log(user.displayName);
+  comments.$add({md:markdown,
+                user: {
+                  displayName: user.displayName,
+                  id: user.id
+                  }
+                });
 
   };
 
