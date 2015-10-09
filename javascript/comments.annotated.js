@@ -14,16 +14,11 @@ app.directive('comments', function(){
       $scope.commentMd = "";
 
       $scope.post = function(){
-       Comments.post($scope.commentMd);
+       Comments.post($scope.commentMd, UserAuth.user);
         $scope.commentMd = "";
        };
-//create empty array to make a copy of all comments so we have 2 watches due to pending directive
-      
+//create empty array to make a copy of all comments so we have 2 watches due to pending directive     
       $scope.loaded = [];
-      
-
-      
-
       $scope.refresh = function(data) {
         $scope.loaded = data;
       };
@@ -32,69 +27,6 @@ app.directive('comments', function(){
     templateUrl: 'comments.html'
   }
 });
-
-//create a firebase ref that can be shared
-app.factory('FirebaseRef', ["FIREBASE_URL", "$firebaseAuth", function(FIREBASE_URL, $firebaseAuth){
-   var ref = new Firebase(FIREBASE_URL);
-   return ref;
-}]);
-
-//create the user auth factory
-app.factory('UserAuth', ["FirebaseRef", "$rootScope", "$firebaseAuth", function(FirebaseRef, $rootScope, $firebaseAuth){
-//create UserAuth object to return
- 
-
-var auth = $firebaseAuth(FirebaseRef);
-
- var UserAuth = {
-  login: function(provider) {
-    auth.$authWithOAuthPopup(provider)
-    .then(function(authData) {
-    console.log("Logged in as:", authData.uid);
-    UserAuth.user = authData.uid;
-    console.log(UserAuth.user);
-  }).catch(function(error) {
-    console.log("Authentication failed:", error);
-  });
-  },
-  logout: function(provider) {
-    auth.$unauth();
-    UserAuth.user = null;
-  },
-
-  user: null
- }
-
-  return UserAuth;
-}]);
-
-
-//app logic moved to a service and should not be in controller
-app.factory('Comments', ["$firebaseArray", "FirebaseRef", function($firebaseArray, FirebaseRef){
-  var comments = $firebaseArray(FirebaseRef);     
-
-  comments.post = function(markdown){
-  comments.$add({md:markdown});
-  };
-
-return comments;
-}]);
-
-app.filter("mdToHtml", function(){
-  return function(md) {
-    return markdown.toHTML(md);
-  };
-});
-
-//login controller for login route
-app.controller('LoginCtrl', ["$scope", "$routeParams", "UserAuth", "$location", function($scope, $routeParams, UserAuth, $location){
-  $scope.UserAuth = UserAuth;
-  $scope.$watch('UserAuth.user', function(user){
-    if(user) {
-      $location.path('/');
-    }
-  });
-}]);
 
 app.directive('pending', function(){
   return {
@@ -126,6 +58,87 @@ app.directive('pending', function(){
   };
 });
 
+app.directive('karma', function(){
+  return {
+    restrict: 'A',
+    scope: {
+      voter: '=',
+      poster: '=',
+      object: '='
+    },
+    templateUrl: 'karma.html',
+    transclude: true,
+    link: function(scope, elem, attrs, controller, transclude){
+
+    }
+  };
+});
+
+//create a firebase ref that can be shared
+app.factory('FirebaseRef', ["FIREBASE_URL", "$firebaseAuth", function(FIREBASE_URL, $firebaseAuth){
+   var ref = new Firebase(FIREBASE_URL);
+   return ref;
+}]);
+
+
+app.factory('UserAuth', ["FirebaseRef", "$rootScope", "$firebaseAuth", function(FirebaseRef, $rootScope, $firebaseAuth){
+//create UserAuth object to return
+
+var auth = $firebaseAuth(FirebaseRef);
+
+ var UserAuth = {
+  login: function(provider) {
+    var x = provider;
+    auth.$authWithOAuthPopup(provider)
+    .then(function(authData) {
+      console.log(x);
+      console.log("Logged in as:", authData[x]);
+      UserAuth.user = authData[x];
+      //console.log(UserAuth.user);
+      }).catch(function(error) {
+        console.log("Authentication failed:", error);
+        });
+  },
+  logout: function(provider) {
+    auth.$unauth();
+    UserAuth.user = null;
+  },
+
+  user: null
+ }
+  return UserAuth;
+}]);
+
+
+//app logic moved to a service and should not be in controller
+app.factory('Comments', ["$firebaseArray", "FirebaseRef", function($firebaseArray, FirebaseRef){
+  var comments = $firebaseArray(FirebaseRef);     
+
+  comments.post = function(markdown, user){
+    console.log(user);
+  comments.$add({md:markdown});
+
+  };
+
+  return comments;
+}]);
+
+app.filter("mdToHtml", function(){
+  return function(md) {
+    return markdown.toHTML(md);
+  };
+});
+
+//login controller for login route
+app.controller('LoginCtrl', ["$scope", "$routeParams", "UserAuth", "$location", function($scope, $routeParams, UserAuth, $location){
+  $scope.UserAuth = UserAuth;
+  $scope.$watch('UserAuth.user', function(user){
+    if(user) {
+      $location.path('/');
+    }
+  });
+}]);
+
 
 //wire up routes
 app.config(["$routeProvider", function($routeProvider){
@@ -139,10 +152,6 @@ app.config(["$routeProvider", function($routeProvider){
     controller: 'LoginCtrl'
   })
 }]);
-
-
-
-
 
 
 
