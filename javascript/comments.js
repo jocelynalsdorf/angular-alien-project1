@@ -58,7 +58,7 @@ app.directive('pending', function(){
   };
 });
 
-app.directive('karma', function(){
+app.directive('karma', function(FirebaseRef, $firebaseArray){
   return {
     restrict: 'A',
     scope: {
@@ -69,8 +69,30 @@ app.directive('karma', function(){
     templateUrl: 'karma.html',
     transclude: true,
     link: function(scope, elem, attrs, controller, transclude){
+      var ObjectRef = FirebaseRef.child(scope.object.$id),
+        upvotes = $firebaseArray(ObjectRef.child('upvotes')),
+        downvotes = $firebaseArray(ObjectRef.child('downvotes'));
+        
+        scope.points = 0;
+
+        scope.canVote = function(){
+
+        };
+        scope.upVote = function(){
+
+        };
+        scope.downVote = function(){
+
+        };
+
+        transclude(elem.scope(), function(clone){
+//so comment will still display even tho its in karma directive iolate scope */
+          elem.append(clone);
+        });
+
 
     }
+
   };
 });
 

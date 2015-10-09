@@ -1,5 +1,9 @@
 <div>
-  <ul class="comment" ng-repeat="comment in loaded">
+  <ul class="comment" ng-repeat="comment in loaded"
+  karma
+  voter="UserAuth.user"
+  poster="comment.user"
+  object="comment">
     <li ng-bind-html="comment.md | mdToHtml"></li>
   </ul>
   <pending watch="comments" update="refresh(data)"></pending>
