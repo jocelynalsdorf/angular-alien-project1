@@ -5,7 +5,7 @@ module.exports = function(config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
+    basePath: '..',
 
 
     // frameworks to use
@@ -18,9 +18,12 @@ module.exports = function(config) {
     'javascript/third-party/angular.min.js',
     'javascript/third-party/angular-sanitize.min.js',
     'javascript/third-party/angular-route.min.js',
+    'javascript/third-party/angular-mocks.js',
     'javascript/third-party/markdown.min.js',
     'javascript/third-party/firebase.js',
-    'javascript/third-party/angularfire.min.js'
+    'javascript/third-party/angularfire.min.js',
+    'javascript/comments.annotated.js',
+    'tests/**/*.js'
     ],
 
 
