@@ -15,6 +15,12 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+    'javascript/third-party/angular.min.js',
+    'javascript/third-party/angular-sanitize.min.js',
+    'javascript/third-party/angular-route.min.js',
+    'javascript/third-party/markdown.min.js',
+    'javascript/third-party/firebase.js',
+    'javascript/third-party/angularfire.min.js'
     ],
 
 
