@@ -1953,10 +1953,11 @@ angular.mock.clearDataCache = function() {
     });
     angular.callbacks.counter = 0;
   });
-
+//this function below is what I altered 
   function isSpecRunning() {
     return currentSpec;
 }
+//
   /**
    * @ngdoc function
    * @name angular.mock.module

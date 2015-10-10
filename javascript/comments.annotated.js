@@ -24,7 +24,7 @@ app.directive('comments', function(){
       };
 
     }],
-    templateUrl: 'comments.html'
+    templateUrl: 'templates/comments.html'
   }
 });
 
@@ -35,7 +35,7 @@ app.directive('pending', function(){
       data: '=watch',
       reload: '&update'
     },
-    templateUrl: 'pending.html',
+    templateUrl: 'templates/pending.html',
 
     link: function(scope){
       scope.pending = 0;
@@ -66,7 +66,7 @@ app.directive('karma', ["FirebaseRef", "$firebaseArray", "$firebaseObject", func
       poster: '=',
       object: '='
     },
-    templateUrl: 'karma.html',
+    templateUrl: 'templates/karma.html',
     transclude: true,
     link: function(scope, elem, attrs, controller, transclude){
       var ObjectRef = FirebaseRef.child(scope.object.$id),
@@ -198,11 +198,11 @@ app.controller('LoginCtrl', ["$scope", "$routeParams", "UserAuth", "$location", 
 app.config(["$routeProvider", function($routeProvider){
   $routeProvider
   .when('/', {
-    templateUrl:'post.html',
+    templateUrl:'templates/post.html',
     //dont need a controller for this page
   })
   .when('/login', {
-    templateUrl: 'login.html',
+    templateUrl: 'templates/login.html',
     controller: 'LoginCtrl'
   })
 }]);

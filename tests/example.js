@@ -13,11 +13,19 @@ angular.module('example', [])
 
 describe("Calculator test suite", function(){
 
-  beforeEach(function(){
-    module('example');
+   var Calculator;
+
+  beforeEach(module('example'));
+  beforeEach(inject(function(_Calculator_){
+    Calculator = _Calculator_;
+  }));
+
+  it("adds two numbers together", function(){
+    expect(Calculator.add(1,2)).toBe(3);
   });
 
-  it("adds two numbers together", inject(function(Calculator){
-    expect(Calculator.add(1,2)).toBe(3);
-  }));
+  it("Subtracts two numbers together", function(){
+    expect(Calculator.subtract(2,1)).toBe(1);
+  });
+
 });

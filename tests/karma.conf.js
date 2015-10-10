@@ -20,7 +20,7 @@ module.exports = function(config) {
     'javascript/third-party/angular-route.min.js',
     'javascript/third-party/angular-mocks.js',
     'javascript/third-party/markdown.min.js',
-    'javascript/third-party/firebase.js',
+    'javascript/third-party/mockfirebase.js',
     'javascript/third-party/angularfire.min.js',
     'javascript/comments.annotated.js',
     'tests/**/*.js'
@@ -35,6 +35,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      "templates/*.html": "ng-html2js"
     },
 
 
