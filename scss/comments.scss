@@ -21,6 +21,9 @@ $font-size-3: 2.6154rem;
 $font-size-4: 4.2308rem;
 $font-size-5: 6.8462rem;
 
+
+
+
 @mixin archer-book {
     font-family: 'Archer A', 'Archer B';
     font-weight: 500;
@@ -176,4 +179,30 @@ button {
 }
 ul {
   list-style: none;
+}
+
+
+/* animations -------*/
+.comment.ng-enter {
+  
+    animation: fadeIn .5s linear;
+}
+
+
+.main-view.ng-enter {
+    // opacity: 0;
+    animation: fadeIn .5s linear;
+   
+ }
+// .main-view.ng-leave {
+//     transition: transform .5s linear;
+// }
+// .main-view.ng-leave.ng-leave-active {
+//     transform: translateX(100%);
+// }
+
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
 }

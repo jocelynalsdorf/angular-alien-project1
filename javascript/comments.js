@@ -1,6 +1,6 @@
 (function(){
 
-var app = angular.module('angular-demo', ['ngSanitize', 'firebase', 'ngRoute']);
+var app = angular.module('angular-demo', ['ngSanitize', 'firebase', 'ngRoute', 'ngAnimate']);
 app.constant("FIREBASE_URL","https://popping-torch-6088.firebaseio.com/");
 
 //Comment object returned from the Comment factory is now being passed to the ctrl in the directive
