@@ -23,6 +23,7 @@ module.exports = function(config) {
     'javascript/third-party/mockfirebase.js',
     'javascript/third-party/angularfire.min.js',
     'javascript/comments.annotated.js',
+    'templates/*.html',
     'tests/**/*.js'
     ],
 
